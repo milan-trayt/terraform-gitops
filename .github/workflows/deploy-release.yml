@@ -33,7 +33,7 @@ jobs:
         shell: bash
         run: |
           if [[ ${{inputs.environment}} == 'prod' ]]; then
-              echo "AWS_ROLE=arn:aws:iam::949263681218:role/milan-terraform-github-action-write-role" >> $GITHUB_ENV
+              echo "AWS_ROLE=arn:aws:iam::949263681218:role/milan-training-terraform-github-action-write-role-prod" >> $GITHUB_ENV
               echo "ENV=prod" >> $GITHUB_ENV
           fi
 

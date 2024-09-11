@@ -202,7 +202,7 @@ module "portal_secrets" {
 ### IAM roles for web portal ci/cd
 
 resource "aws_iam_role" "portal_github_action_role" {
-  name = join("-", [var.portal_name, "portal", var.project, var.module, "github-action-role"])
+  name = join("-", [var.portal_name, "portal", var.project, var.module, "github-action-role", var.stage])
 
   assume_role_policy = data.aws_iam_policy_document.portal_github_action_assume_role_policy.json
 }

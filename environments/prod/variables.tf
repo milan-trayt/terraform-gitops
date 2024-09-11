@@ -12,7 +12,7 @@ variable "project" {
 
 variable "module" {
   type        = string
-  default     = "devops-training"
+  default     = "training"
   description = "Name of the module"
 }
 
@@ -39,7 +39,7 @@ variable "logs_bucket_versioning" {
 
 variable "logs_bucket_name" {
   type        = string
-  default     = "milan-devops-training-cloudfront-logs-s3"
+  default     = "milan-training-cloudfront-logs-s3-prod"
   description = "Name of the bucket where cloudfront logs are stored"
 }
 
@@ -55,7 +55,7 @@ variable "portal_name" {
 
 variable "portal_bucket_name" {
   type        = string
-  default     = "milan-devops-training-web-portal"
+  default     = "milan-training-web-portal-prod"
   description = "Name of the bucket where web portal's build is stored"
 }
 

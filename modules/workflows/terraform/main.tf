@@ -5,7 +5,7 @@ data "aws_region" "current" {}
 ### Read Role
 
 resource "aws_iam_role" "terraform_read_role" {
-  name = join("-", [var.project, var.module, "terraform-github-action-read-role"])
+  name = join("-", [var.project, var.module, "terraform-github-action-read-role", var.stage])
   assume_role_policy = jsonencode({
     Statement = [
       {
@@ -31,7 +31,7 @@ resource "aws_iam_role" "terraform_read_role" {
 }
 
 resource "aws_iam_policy" "read_policy" {
-  name   = join("-", [var.project, var.module, "read-policy-common"])
+  name   = join("-", [var.project, var.module, "read-policy-common", var.stage])
   policy = data.aws_iam_policy_document.read_policy.json
 }
 
@@ -54,7 +54,7 @@ data "aws_iam_policy_document" "read_policy" {
 }
 
 resource "aws_iam_policy" "terraform_state_lock_write" {
-  name   = join("-", [var.project, var.module, "terraform_state_lock_write"])
+  name   = join("-", [var.project, var.module, "terraform_state_lock_write", var.stage])
   policy = data.aws_iam_policy_document.terraform_state_lock_write.json
 }
 
@@ -94,7 +94,7 @@ resource "aws_iam_role_policy_attachment" "custom_read" {
 ### Write Role
 
 resource "aws_iam_role" "terraform_write_role" {
-  name = join("-", [var.project, var.module, "terraform-github-action-write-role"])
+  name = join("-", [var.project, var.module, "terraform-github-action-write-role", var.stage])
   assume_role_policy = jsonencode({
     Statement = [
       {
@@ -120,7 +120,7 @@ resource "aws_iam_role" "terraform_write_role" {
 }
 
 resource "aws_iam_policy" "write_policy" {
-  name   = join("-", [var.project, var.module, "write-policy"])
+  name   = join("-", [var.project, var.module, "write-policy", var.stage])
   policy = data.aws_iam_policy_document.write_policy.json
 }
 

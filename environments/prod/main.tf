@@ -1,8 +1,5 @@
-module "github_oidc" {
-  source = "../../modules/services/iam/oidc"
-
-  provider_url   = "https://token.actions.githubusercontent.com"
-  client_id_list = ["sts.amazonaws.com"]
+data "aws_iam_openid_connect_provider" "github_oidc" {
+  url = "https://token.actions.githubusercontent.com"
 }
 
 module "github_actions_terraform" {
@@ -10,11 +7,11 @@ module "github_actions_terraform" {
   stage             = var.stage
   project           = var.project
   module            = var.module
-  oidc_provider_arn = module.github_oidc.arn
+  oidc_provider_arn = data.aws_iam_openid_connect_provider.github_oidc.arn
 }
 
 module "waf" {
-  source = "../../modules/services/waf/cloudfront"
+  source  = "../../modules/services/waf/cloudfront"
   stage   = var.stage
   project = var.project
   module  = var.module
@@ -53,7 +50,7 @@ module "web_portal" {
   portal_name        = var.portal_name
   portal_bucket_name = var.portal_bucket_name
 
-  oidc_provider_arn             = module.github_oidc.arn
+  oidc_provider_arn             = data.aws_iam_openid_connect_provider.github_oidc.arn
   waf_arn                       = module.waf.arn
   portal_access_log_bucket_name = module.cloudfront_logs_bucket.bucket_name
 
