@@ -42,7 +42,6 @@ jobs:
     name: Terraform Plan
     runs-on: ubuntu-latest
     needs: check_changes
-    if: needs.check_changes.outputs.tf_changed == 'true'
     strategy:
       fail-fast: false
       matrix:
@@ -86,13 +85,14 @@ jobs:
           fi
 
       - name: Init
+        if: ${{ needs.check_changes.outputs.tf_changed == 'true' }}
         id: init
         run: |
           cd environments/${{matrix.environment}}
           terraform init
 
       - name: Plan
-        if: ${{ steps.init.outcome == 'success' }}
+        if: ${{ steps.init.outcome == 'success' }} && ${{ needs.check_changes.outputs.tf_changed == 'true' }}
         id: plan
         run: |
           cd environments/${{matrix.environment}}
