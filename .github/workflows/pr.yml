@@ -86,7 +86,7 @@ jobs:
           mkdir -p ${{github.event.number}}_${{matrix.environment}}
           sed -n '/Terraform used the selected providers to generate the following execution/,/Plan:/p' plan.tmp.json > ${{github.event.number}}_${{matrix.environment}}/plan.json
           plan_content=$(cat ${{github.event.number}}_${{matrix.environment}}/plan.json)
-          html_content=$(cat ../plan.html)
+          html_content=$(cat ../../plan.html)
           add_date="${html_content//plandate/$current_date}"
           add_env="${add_date//planenvironmentname/${{matrix.environment}}}"
           updated_html_content="${add_env//terraformplanhere/$plan_content}"
