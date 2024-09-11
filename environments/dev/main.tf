@@ -14,7 +14,7 @@ module "github_actions_terraform" {
 }
 
 module "waf" {
-  source = "../../modules/services/waf/cloudfront"
+  source  = "../../modules/services/waf/cloudfront"
   stage   = var.stage
   project = var.project
   module  = var.module
