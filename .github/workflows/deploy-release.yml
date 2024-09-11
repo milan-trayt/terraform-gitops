@@ -9,6 +9,8 @@ on:
         type: choice
         options:
           - prod
+          - dev
+        default: 'prod'
 
 permissions:
   id-token: write
@@ -35,6 +37,10 @@ jobs:
           if [[ ${{inputs.environment}} == 'prod' ]]; then
               echo "AWS_ROLE=arn:aws:iam::949263681218:role/milan-training-terraform-github-action-write-role-prod" >> $GITHUB_ENV
               echo "ENV=prod" >> $GITHUB_ENV
+          fi
+          if [[ ${{inputs.environment}} == 'dev' ]]; then
+              echo "AWS_ROLE=arn:aws:iam::949263681218:role/milan-training-terraform-github-action-write-role-dev" >> $GITHUB_ENV
+              echo "ENV=dev" >> $GITHUB_ENV
           fi
 
       - name: Setup Terraform
