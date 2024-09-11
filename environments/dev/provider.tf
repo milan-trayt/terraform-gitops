@@ -11,8 +11,8 @@ provider "aws" {
   region = "us-east-1"
   default_tags {
     tags = {
-      Name      = "milan-devops-training",
-      Project   = "milan-devops-training"
+      Name      = "milan-training",
+      Project   = "milan-training"
       Creator   = "milanpokhrel@lftechnology.com"
       Deletable = "Yes"
     }
