@@ -27,6 +27,21 @@ jobs:
         environment: [dev, prod]
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Add github safe dir
+        run: git config --global --add safe.directory /__w/terraform-gitops/terraform-gitops
+
+      - name: Check if .tf files are changed
+        run: |
+          if git diff --name-only ${{github.event.before}} ${{github.sha}} | grep -q '\.tf$'; then
+            echo "Terraform files are changed."
+          else
+            echo "No Terraform files are changed. Exiting."
+            exit 78
+          fi
+
       - name: Set environment vars
         shell: bash
         run: |
@@ -49,12 +64,6 @@ jobs:
           role-to-assume: ${{ env.AWS_ROLE }}
           role-duration-seconds: 3600
           aws-region: ${{ env.AWS_REGION }}
-
-      - name: Checkout code
-        uses: actions/checkout@v4
-      
-      - name: Add github safe dir
-        run: git config --global --add safe.directory /__w/terraform-gitops/terraform-gitops
 
       - name: Check and exit if not formatted
         run: |
