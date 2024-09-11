@@ -18,42 +18,15 @@ env:
   AWS_REGION: 'us-east-1'
 
 jobs:
-  check_changes:
-    name: Check for .tf file changes
-    runs-on: ubuntu-latest
-    outputs:
-      tf_changed: ${{ steps.check.outputs.tf_changed }}
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      
-      - name: Check if .tf files are changed
-        id: check
-        run: |
-          if git diff --name-only ${{github.event.before}} ${{github.sha}} | grep -q '\.tf$'; then
-            echo "tf_changed=true" >> $GITHUB_ENV
-            echo "::set-output name=tf_changed::true"
-          else
-            echo "tf_changed=false" >> $GITHUB_ENV
-            echo "::set-output name=tf_changed::false"
-          fi
-
   plan:
-    name: Terraform Plan
+    name: Plan
     runs-on: ubuntu-latest
-    needs: check_changes
     strategy:
       fail-fast: false
       matrix:
         environment: [dev, prod]
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      
-      - name: Add github safe dir
-        run: git config --global --add safe.directory /__w/terraform-gitops/terraform-gitops
-
       - name: Set environment vars
         shell: bash
         run: |
@@ -70,7 +43,7 @@ jobs:
         with:
           terraform_version: 1.9.1
       
-      - name: Configure AWS credentials
+      - name: configure aws credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ env.AWS_ROLE }}
@@ -85,14 +58,13 @@ jobs:
           fi
 
       - name: Init
-        if: ${{ needs.check_changes.outputs.tf_changed == 'true' }}
         id: init
         run: |
           cd environments/${{matrix.environment}}
           terraform init
 
       - name: Plan
-        if: ${{ steps.init.outcome == 'success' }} && ${{ needs.check_changes.outputs.tf_changed == 'true' }}
+        if: ${{steps.init.outcome}} == 'success'
         id: plan
         run: |
           cd environments/${{matrix.environment}}
@@ -100,7 +72,7 @@ jobs:
           if grep -q "level=error" plan.tmp.json ; then exit 1; else true; fi
 
       - name: Compose Plan
-        if: steps.plan.outcome == 'success'
+        if: steps.plan.outputs.exitcode != 1
         shell: bash
         run: |
           cd environments/${{matrix.environment}}
@@ -112,7 +84,7 @@ jobs:
           add_date="${html_content//plandate/$current_date}"
           add_env="${add_date//planenvironmentname/${{matrix.environment}}}"
           updated_html_content="${add_env//terraformplanhere/$plan_content}"
-          echo "$updated_html_content" > ${{github.event.number}}_${{matrix.environment}}/index.html"
+          echo "$updated_html_content" > ${{github.event.number}}_${{matrix.environment}}/index.html
       
       - name: Archive plan
         uses: actions/upload-artifact@v4
@@ -143,7 +115,7 @@ jobs:
           git commit -m "Add plan for run ${{github.event.number}}"
           git push origin pages
 
-  update_pr:
+  Update-PR:
     name: Update Pull Request
     runs-on: ubuntu-latest
     if: always()
