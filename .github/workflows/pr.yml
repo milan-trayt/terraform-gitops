@@ -31,10 +31,10 @@ jobs:
         shell: bash
         run: |
           if [[ ${{matrix.environment}} == 'dev' ]]; then
-              echo "AWS_ROLE=arn:aws:iam::949263681218:role/milan-terraform-github-action-read-role" >> $GITHUB_ENV
+              echo "AWS_ROLE=arn:aws:iam::949263681218:role/milan-training-terraform-github-action-read-role-dev" >> $GITHUB_ENV
               echo "ENV=dev" >> $GITHUB_ENV
           elif [[ ${{matrix.environment}} == 'prod' ]]; then
-              echo "AWS_ROLE=arn:aws:iam::949263681218:role/milan-terraform-github-action-read-role" >> $GITHUB_ENV
+              echo "AWS_ROLE=arn:aws:iam::949263681218:role/milan-training-terraform-github-action-read-role-prod" >> $GITHUB_ENV
               echo "ENV=prod" >> $GITHUB_ENV
           fi
 
