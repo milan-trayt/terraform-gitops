@@ -50,6 +50,12 @@ jobs:
           role-duration-seconds: 3600
           aws-region: ${{ env.AWS_REGION }}
 
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Add github safe dir
+        run: git config --global --add safe.directory /__w/terraform-gitops/terraform-gitops
+
       - name: Check and exit if not formatted
         run: |
           if ! terraform fmt -check -recursive; then
