@@ -1,0 +1,17 @@
+on:
+  workflow_call:
+    inputs:
+      matrix:
+        required: true
+        type: string
+        default: '[]'
+
+jobs:
+  echo_changed_flofers:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{fromJson(inputs.matrix)}}
+    steps:
+      - name: Echo changed directories
+        run: |
+          echo "${{ matrix.directory }}"
