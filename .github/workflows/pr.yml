@@ -35,7 +35,8 @@ jobs:
           dirs=()
           echo "$changes" | grep -q '^environments/' && dirs+=("\"environments\"")
           echo "$changes" | grep -q '^modules/' && dirs+=("\"modules\"")
-          json="{\"directory\":[${dirs[*]}]}"
+          dirs_json=$(IFS=,; echo "${dirs[*]}") 
+          json="{\"directory\":[${dirs_json}]}"
           echo $json
           echo "matrix=$json" >> $GITHUB_OUTPUT
 
