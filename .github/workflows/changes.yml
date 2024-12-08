@@ -10,8 +10,6 @@ jobs:
   echo_changed_folders:
     runs-on: ubuntu-latest
     if: ${{toJson(fromJson(inputs.matrix).directory)}} != '[]'
-    strategy:
-      matrix: ${{fromJson(inputs.matrix)}}
     steps:
       - name: Checkout code
         run : |
@@ -19,4 +17,4 @@ jobs:
 
       - name: Echo changed directories
         run: |
-          echo "${{ matrix.directory }}"
+          echo "Changed directories: ${{fromJson(inputs.matrix).directory}}"
