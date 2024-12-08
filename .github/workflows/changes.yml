@@ -12,12 +12,8 @@ jobs:
     steps:
       - name: Echo input
         run: |
-          if [ "${{toJson(fromJson(inputs.matrix.directory))}}" != '[]' ]; then
-            echo "Input matrix Available"
-            echo "${{toJson(fromJson(inputs.matrix.directory))}}"
-          else
-            echo "No input matrix"
-          fi
+          directory = ${{fromJson(inputs.matrix).directory}}
+          echo "Directory: $directory"
 
   echo_changed_folders:
     runs-on: ubuntu-latest
