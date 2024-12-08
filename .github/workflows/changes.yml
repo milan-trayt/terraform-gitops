@@ -12,7 +12,11 @@ jobs:
     steps:
       - name: Echo input
         run: |
-          echo "${{fromJson(inputs.matrix).directory}}"
+          if [ "${{fromJson(inputs.matrix)}}" != '[]' ]; then
+            echo "Input matrix: ${{fromJson(inputs.matrix)}}"
+          else
+            echo "No input matrix"
+          fi
 
   echo_changed_folders:
     runs-on: ubuntu-latest
