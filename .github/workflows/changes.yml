@@ -7,12 +7,16 @@ on:
         default: '[]'
 
 jobs:
-  echo_changed_flofers:
+  echo_changed_folders:
     runs-on: ubuntu-latest
     strategy:
       matrix: ${{fromJson(inputs.matrix)}}
     if: ${{fromJson(inputs.matrix).directory}} != '[]'
     steps:
+      - name: Checkout code
+        run : |
+          echo"Checking out code"
+
       - name: Echo changed directories
         run: |
           echo "${{ matrix.directory }}"
