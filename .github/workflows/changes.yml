@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: Checkout code
         run : |
-          echo"Checking out code"
+          echo "Checking out code"
 
       - name: Echo changed directories
         run: |
