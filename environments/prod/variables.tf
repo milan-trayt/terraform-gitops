@@ -88,3 +88,4 @@ variable "content_security_policy" {
   default     = {}
   description = "Content Security Policy for the web portal"
 }
+

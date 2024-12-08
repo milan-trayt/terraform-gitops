@@ -4,3 +4,4 @@ resource "aws_s3_bucket_object" "default" {
   source = var.file_source_location
   etag   = filemd5(var.file_source_location)
 }
+
