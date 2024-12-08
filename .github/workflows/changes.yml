@@ -9,7 +9,7 @@ on:
 jobs:
   echo_changed_folders:
     runs-on: ubuntu-latest
-    if: ${{toJson(fromJson(inputs.matrix).directory)}}
+    if: ${{toJson(fromJson(inputs.matrix).directory)}} != '[]'
     strategy:
       matrix: ${{fromJson(inputs.matrix)}}
     steps:
