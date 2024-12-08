@@ -17,4 +17,4 @@ jobs:
 
       - name: Echo changed directories
         run: |
-          echo "Changed directories: ${{fromJson(inputs.matrix).directory}}"
+          echo "Changed directories: ${{toJson(fromJson(inputs.matrix).directory)}}"
