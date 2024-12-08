@@ -12,8 +12,7 @@ jobs:
     steps:
       - name: Echo input
         run: |
-          directory = ${{fromJson(inputs.matrix).directory}}
-          echo "Directory: $directory"
+          echo "${{fromJson(inputs.matrix).directory}}"
 
   echo_changed_folders:
     runs-on: ubuntu-latest
