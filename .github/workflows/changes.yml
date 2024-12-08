@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix: ${{fromJson(inputs.matrix)}}
+    if: ${{fromJson(inputs.matrix).directory}} != '[]'
     steps:
       - name: Echo changed directories
         run: |
