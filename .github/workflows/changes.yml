@@ -12,8 +12,9 @@ jobs:
     steps:
       - name: Echo input
         run: |
-          if [ "${{fromJson(inputs.matrix)}}" != '[]' ]; then
-            echo "Input matrix: ${{fromJson(inputs.matrix)}}"
+          if [ "${{toJson(fromJson(inputs.matrix.directory))}}" != '[]' ]; then
+            echo "Input matrix Available"
+            echo "${{toJson(fromJson(inputs.matrix.directory))}}"
           else
             echo "No input matrix"
           fi
