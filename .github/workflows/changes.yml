@@ -7,16 +7,9 @@ on:
         default: '[]'
 
 jobs:
-  echo_input:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Echo input
-        run: |
-          echo "${{toJson(fromJson(inputs.matrix).directory)}}"
-
   echo_changed_folders:
     runs-on: ubuntu-latest
-    if: ${{fromJson(inputs.matrix).directory}} != '[]'
+    if: ${{toJson(fromJson(inputs.matrix).directory)}}
     strategy:
       matrix: ${{fromJson(inputs.matrix)}}
     steps:
