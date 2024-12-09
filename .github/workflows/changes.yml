@@ -17,3 +17,10 @@ jobs:
       - name: Echo changed directories
         run: |
           echo "Changed directories: ${{matrix.directory}}"
+
+  hello:
+    runs-on: ubuntu-latest
+    needs: echo_changed_folders
+    steps:
+      - name: Hello world
+        run: echo "Hello world"
