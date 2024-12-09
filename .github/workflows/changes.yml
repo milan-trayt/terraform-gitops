@@ -7,29 +7,13 @@ on:
         default: '[]'
 
 jobs:
-  parse_matrix:
-    runs-on: ubuntu-latest
-    outputs:
-      directory: ${{ steps.parse_matrix.outputs.directory }}
-    steps:
-      - name: Parse matrix
-        id: parse_matrix
-        run: |
-          echo "Parsing matrix"
-          echo "directory=${{toJson(fromJson(inputs.matrix).directory)}}" >> $GITHUB_OUTPUT
-  
   echo_changed_folders:
     runs-on: ubuntu-latest
-    needs: parse_matrix
-    if: needs.parse_matrix.outputs.directory != '[]'
+    if: contains(inputs.matrix, '[]') == false
     strategy:
       matrix:
         directory: ${{fromJson(inputs.matrix).directory}}
     steps:
-      - name: Checkout code
-        run : |
-          echo "Checking out code"
-
       - name: Echo changed directories
         run: |
           echo "Changed directories: ${{matrix.directory}}"
