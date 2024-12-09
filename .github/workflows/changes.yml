@@ -7,11 +7,20 @@ on:
         default: '[]'
 
 jobs:
-  echo_changed_flofers:
+  echo_changed_folders:
     runs-on: ubuntu-latest
+    if: contains(inputs.matrix, '[]') == false
     strategy:
-      matrix: ${{fromJson(inputs.matrix)}}
+      matrix:
+        directory: ${{fromJson(inputs.matrix).directory}}
     steps:
       - name: Echo changed directories
         run: |
-          echo "${{ matrix.directory }}"
+          echo "Changed directories: ${{matrix.directory}}"
+
+  hello:
+    runs-on: ubuntu-latest
+    needs: echo_changed_folders
+    steps:
+      - name: Hello world
+        run: echo "Hello world"
